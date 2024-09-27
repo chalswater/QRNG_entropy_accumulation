@@ -40,7 +40,9 @@ INTRUCTIONS TO USE THE CODE: The whole code consists of 10 python files. Here ar
           contains one hdf5 file and a folder with the extracted data form the experiment.
 
 All data from the paper is already saved in the Outputs folder, and can be read comiling the "read_and_write.py" file.
-   
+
+PS: Extracted data is too heavy for GitHub. All plots can be reproduced with files in Outputs folder.
+To generate new data, extracted data from experiment can be available upon request.
 
 
 
