@@ -2,7 +2,7 @@
 #            Improving semi-device-independent randomness                     #
 #               certification by entropy accumulation                         #
 
-INTRUCTIONS TO USE THE CODE: The whole code consists of 10 python files. Here are presented in a suggested order of compilation.
+INTRUCTIONS TO USE THE CODE: The whole code consists of 8 python files. Here are presented in a suggested order of compilation.
 
   1. "read_and_write.py" reads and writes saved data on the Outputs folder
   2. "functions.py": contains all the functions required to compute all the
@@ -22,22 +22,15 @@ INTRUCTIONS TO USE THE CODE: The whole code consists of 10 python files. Here ar
          of the slices of colormaps corresponding to the coherent state
          amplitudes used in the experiment.
 
-      6. "min-tradeoff.py": generates the data to plot the Shannon entropy
-          datapoints to derive the constant min-tradeoff function.
-
   - PLOTTING FILES:
 
-      7. "plot_color_map.py": generates a plot with the color maps.
+      6. "plot_color_map.py": generates a plot with the color maps.
         
-      8. "plot_slices_datapoints.py": generates a plot with the slices
+      7. "plot_slices_datapoints.py": generates a plot with the slices
          of datapoints.
 
-      9. "plot_scalability.py": generates a plot with the scalability of our
+      8. "plot_scalability.py": generates a plot with the scalability of our
           method using different subsets of datapoints.
-
-      10. "plot_min-tradeoff.py": generates a plot with the Shannon entropy
-          datapoints and the constant min-tradeoff function. The folder also
-          contains one hdf5 file and a folder with the extracted data form the experiment.
 
 All data from the paper is already saved in the Outputs folder, and can be read comiling the "read_and_write.py" file.
 
