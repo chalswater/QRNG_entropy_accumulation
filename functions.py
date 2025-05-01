@@ -346,6 +346,91 @@ def H(m,w,t,rho,pbx,nX,nB,dim,xstar):
 #-------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------
 
+def Dual_H(m,w,t,rho,pbx,nX,nB,dim,xstar):
+    
+    """ Dual Shannon entropy with a known state preparation """
+    
+    # --------------
+    # Variables
+    # --------------
+
+    Hout = sum([w[i]/(t[i]*np.log(2.0)) for i in range(m)])
+
+    tau = [ w[i]/(t[i]*np.log(2.0)) for i in range(m) ]
+    
+    for i in range(m):
+        
+        R = cp.Variable((dim,dim),complex=True)
+     
+        Q1 = {}
+        Q2 = {}
+        for j in range(nB):
+            Q1[j] = cp.Variable((dim,dim),complex=True)
+            Q2[j] = cp.Variable((dim,dim),complex=True)
+                
+        v = cp.Variable((nB,nX))
+        
+        D = {}
+        F = {}
+        for j in range(nB):
+            D[j] = {}
+            F[j] = {}
+            for b in range(nB):
+                D[j][b] = cp.Variable((dim,dim),complex=True)
+                F[j][b] = cp.Variable((dim,dim),complex=True)
+                            
+        # --------------
+        # Constraints
+        # --------------
+        
+        ct = []
+    
+        ct += [ sum([ D[j][b] for j in range(nB) ]) == sum([ v[b][x]*rho[x] for x in range(nX) ]) + R  for b in range(nB) ] 
+    
+        for j in range(nB):
+            for b in range(nB):
+        
+                ct += [ F[j][b].H + F[j][b] == ( 2.0*tau[i]*deltaF(b,j)*rho[xstar] + Q1[j] - cp.trace(Q1[j])*np.identity(dim)/dim ) ]      
+                L = tau[i]*rho[xstar]*( (1.0-t[i])*deltaF(j,b) + t[i] ) + Q2[j] - cp.trace(Q2[j])*np.identity(dim)/dim 
+                
+                matrix = cp.bmat([[  D[j][b]   , F[j][b] ],
+                                  [  F[j][b].H , L       ]])                
+                
+                ct += [matrix >> 0.0]
+
+        # --------------
+        # Object function: Shannon entropy
+        # --------------
+                            
+        H = - sum([ v[b][x]*pbx[b][x] for b in range(nB) for x in range(nX) ]) - cp.real(cp.trace(R))
+        
+        # --------------
+        # Run the SDP
+        # --------------
+        
+        obj = cp.Maximize(H)
+        prob = cp.Problem(obj,ct)
+    
+        output = []
+    
+        try:
+            mosek_params = {"MSK_DPAR_INTPNT_CO_TOL_REL_GAP": 1e-1}
+            prob.solve(solver='MOSEK',verbose=False, mosek_params=mosek_params)
+    
+        except SolverError:
+            something = 10
+                        
+        Hout += H.value
+        
+    # --------------
+    # Output
+    # --------------
+        
+    return Hout
+
+#------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------
+
 def rng_scaling(ns,data):
     
     """ 
@@ -518,7 +603,7 @@ def rng_scaling(ns,data):
                 rho += [np.kron(np.conjugate(np.transpose(state)),state)]
         
             out_Hmin = Hmin(rho,pbx_data,nX,nB,3,xstar)
-            out_H = H(m-1,w,t,rho,pbx_data,nX,nB,3,xstar)
+            out_H = Dual_H(m-1,w,t,rho,pbx_data,nX,nB,3,xstar)
         
         Hmin_datapoint_vec += [out_Hmin]
         H_datapoint_vec += [out_H]
@@ -540,7 +625,7 @@ def rng_scaling(ns,data):
     
     # Generalised Entropy Accumulation Theorem
     #f_tradeoff = np.min(H_datapoint_vec) - np.std(H_datapoint_vec) - 1e-3
-    f_tradeoff = H_datapoint_vec - np.std(H_datapoint_vec) - 1e-3
+    f_tradeoff = H_datapoint_vec
     Var = np.var(f_tradeoff)
     Min = np.min(f_tradeoff)
     Max = np.max(f_tradeoff)
