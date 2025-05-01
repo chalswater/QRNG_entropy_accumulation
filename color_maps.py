@@ -141,7 +141,7 @@ for i in range(N):
         #Run the SDPs
         start = time.process_time()
         out_Hmin = Hmin(rho,pbx,nX,nB,3,xstar)
-        out_H = H(m-1,w,t,rho,pbx,nX,nB,3,xstar)
+        out_H = Dual_H(m-1,w,t,rho,pbx,nX,nB,3,xstar)
         end = time.process_time()
         
         H_arr[i][j] = out_H

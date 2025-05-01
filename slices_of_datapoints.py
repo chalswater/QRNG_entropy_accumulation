@@ -149,54 +149,19 @@ for s in range(2):
         start = time.process_time()
         #Run the SDPs (either the Primal or the Dual). The dual is used to apply fs and EAT corrections
         out_Hmin = Hmin(rho,pbx,nX,nB,3,xstar)
-        out_H = H(m-1,w,t,rho,pbx,nX,nB,3,xstar)
+        out_H = Dual_H(m-1,w,t,rho,pbx,nX,nB,3,xstar)
         end = time.process_time() 
         
         Hmin_value = out_Hmin
         H_value = out_H
         
-        # Assymptotic Equipartiotion Property (non iid)
-        #pb = [sum([px[x]*pbx[b][x] for x in range(nX)]) for b in range(nB)]
-        #Hmax = 2.0*np.log(sum([np.sqrt(pb[b]) for b in range(nB)]))
-        #etaAEP = np.sqrt(2.0**(-Hmin_value)) + np.sqrt(2.0**Hmax) + 1.0
-        #delta = 4.0*np.log(etaAEP)*np.sqrt(np.log(2.0/epsilon**2.0))
-        
-        #H_QAEP[s][0] += [x_var]
-        #H_QAEP[s][1] += [H_value - delta/np.sqrt(ns)]
-    
         Hmin_vec[s][0] += [x_var]
         Hmin_vec[s][1] += [out_Hmin]
         H_vec[s][0] += [x_var]
         H_vec[s][1] += [out_H]
         
-        #H_GEAT[s][0] += [x_var]
-
         print('RESULT')
         print(out_H)
         print(out_Hmin)
-        #print(H_QAEP[s][1][i])
         print('in',end-start,'seconds')
-        
-        
-    # Generalised Entropy Accumulation Theorem
-    #f_tradeoff = H_vec[s][1]
-    #Var = np.var(f_tradeoff)
-    #Min = np.min(f_tradeoff)
-    #Max = np.max(f_tradeoff)
-    #pg_vec = [2.0**(-Hmin_vec[s][i]) for i in range(N)]
-    
-    #for i in range(N):
-        
-    #    p_omega = 0.5
-    #    aa = 1.0 + 1.0/np.sqrt(ns)
-        
-    #    g_eps = -np.log(1.0-np.sqrt(1.0-epsilon**2.0))
-    #    exponent = (2.0*np.log(nB)+Max-Min)
-    #    inside = 2.0**exponent+np.exp(2.0)
-    #    Kaa = (2.0-aa)**3.0/(6.0*(3.0-2.0*aa)**3.0*np.log(2.0))*2.0**((aa-1.0)/(2.0-aa)*exponent)*(np.log(inside))**3.0
-    #    V = np.log(2.0*nB**2.0+1.0) + np.sqrt(2.0+Var)
-        
-    #    H_GEAT[s][1] += [f_tradeoff[i] - (aa-1.0)/(2.0-aa)*np.log(2.0)/2.0*V**2.0 - \
-    #           ((g_eps + aa*np.log(1.0/p_omega))/(aa-1.0))/ns - \
-    #           ((aa-1.0)/(2.0-aa))**2.0 * Kaa]
-        
+   

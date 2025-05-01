@@ -10,8 +10,8 @@ import numpy as np
 
 # Read and write cvx files
 
-#np.savetxt('Outputs/Hmin_array_100_is.csv', Hmin_arr, delimiter =", ", fmt ='% s') 
-#np.savetxt('Outputs/H_array_100_is.csv', H_arr, delimiter =", ", fmt ='% s') 
+# np.savetxt('Outputs/Hmin_array_100_is_updated.csv', Hmin_arr, delimiter =", ", fmt ='% s') 
+# np.savetxt('Outputs/H_array_100_is_updated.csv', H_arr, delimiter =", ", fmt ='% s') 
 
 #np.savetxt('Outputs/H_slice_vs_beta.csv', H_vec[1], delimiter =", ", fmt ='% s') 
 
@@ -28,7 +28,7 @@ import numpy as np
 #np.savetxt('Outputs/H_QAEP_nrounds_var.csv', H_QAEP_nrounds_var , delimiter =", ", fmt ='% s') 
 #np.savetxt('Outputs/H_GEAT_nrounds_var.csv', H_GEAT_nrounds_var , delimiter =", ", fmt ='% s') 
 
-#np.savetxt('Outputs/sigle_datapoint.csv', sigle_datapoint , delimiter =", ", fmt ='% s') 
+# np.savetxt('Outputs/single_datapoint.csv', sigle_datapoint , delimiter =", ", fmt ='% s') 
 
 #np.savetxt('Outputs/Hmin_vec_slices_0.csv', Hmin_vec[0] , delimiter =", ", fmt ='% s') 
 #np.savetxt('Outputs/Hmin_vec_slices_1.csv', Hmin_vec[1] , delimiter =", ", fmt ='% s') 
@@ -55,8 +55,8 @@ H_vec_slices_0 = np.genfromtxt('Outputs/H_vec_slices_0.csv', delimiter=",")
 H_vec_slices_1 = np.genfromtxt('Outputs/H_vec_slices_1.csv', delimiter=",")
 
 # Single datapoint from the slices
-sigle_datapoint_stored = np.genfromtxt('Outputs/sigle_datapoint.csv', delimiter=",")
-print(sigle_datapoint_stored)
+single_datapoint_stored = np.genfromtxt('Outputs/single_datapoint.csv', delimiter=",")
+
 # Scalability of our method
 Hmin_scalability = np.genfromtxt('Outputs/Hmin_vec_nrounds.csv', delimiter=",")
 H_scalability = np.genfromtxt('Outputs/H_vec_nrounds.csv', delimiter=",")
@@ -78,6 +78,9 @@ Hmin_test = np.genfromtxt('Outputs/Hmin_array_cmap.csv', delimiter=",")
 
 H_array = np.genfromtxt('Outputs/H_array_100.csv', delimiter=",")
 Hmin_array = np.genfromtxt('Outputs/Hmin_array_100.csv', delimiter=",")
+
+H_array_is_updated = np.genfromtxt('Outputs/H_array_100_is_updated.csv', delimiter=",")
+Hmin_array_is_updated = np.genfromtxt('Outputs/Hmin_array_100_is_updated.csv', delimiter=",")
 
 H_array_is = np.genfromtxt('Outputs/H_array_100_is.csv', delimiter=",")
 Hmin_array_is = np.genfromtxt('Outputs/Hmin_array_100_is.csv', delimiter=",")
